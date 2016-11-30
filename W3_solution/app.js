@@ -30,6 +30,7 @@ angular.module('narrowitdownapp', [])
   	var narrowItDown = this;
 
   	narrowItDown.dataInput;
+    narrowItDown.nothingFound = false;
 
   	narrowItDown.findData = function () {
   	  console.log("Clicked");
@@ -38,7 +39,8 @@ angular.module('narrowitdownapp', [])
   	  promise.then(function (response) {
   	  	narrowItDown.found = response;
 
-  	  	console.log("Vastus: ", response);
+        console.log(response);
+
   	  })
   	  .catch(function (error) {
   	  	console.log("Something went terribly wrong");
@@ -49,6 +51,14 @@ angular.module('narrowitdownapp', [])
   		console.log("Remove this one: ", itemIndex);
   		narrowItDown.found.splice(itemIndex,1);
   	};
+
+    narrowItDown.nothingFound = function () {
+        if (narrowItDown.found == 0) {
+          console.log("NOTHING");
+          return true;
+
+        } 
+    };
 
   };
 
