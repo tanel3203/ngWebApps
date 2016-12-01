@@ -30,7 +30,6 @@ angular.module('narrowitdownapp', [])
   	var narrowItDown = this;
 
   	narrowItDown.dataInput;
-    narrowItDown.nothingFound = false;
 
   	narrowItDown.findData = function () {
   	  console.log("Clicked");
@@ -39,8 +38,12 @@ angular.module('narrowitdownapp', [])
   	  promise.then(function (response) {
   	  	narrowItDown.found = response;
 
-        console.log(response);
+  	  	console.log(response);
+        if (response == []) {
+          console.log("NOTHING");
+          narrowItDown.nothingFound = true;
 
+        } 
   	  })
   	  .catch(function (error) {
   	  	console.log("Something went terribly wrong");
@@ -52,13 +55,6 @@ angular.module('narrowitdownapp', [])
   		narrowItDown.found.splice(itemIndex,1);
   	};
 
-    narrowItDown.nothingFound = function () {
-        if (narrowItDown.found == 0) {
-          console.log("NOTHING");
-          return true;
-
-        } 
-    };
 
   };
 
@@ -71,13 +67,13 @@ angular.module('narrowitdownapp', [])
   	service.getMatchedMenuItems = function (searchTerm) {
         return $http({
         	method: "GET",
-        	url: ("https://davids-restaurant.herokuapp.com/menu_items.json")
+        	url: ("http://davids-restaurant.herokuapp.com/menu_items.json")
         }).then(function (result) {
         // process result and only keep items that match
         var foundItems = [];
         var resultItems = result.data.menu_items;
         for (var i = 0; i < resultItems.length; i++) {
-        	if (resultItems[i].name.indexOf(searchTerm) !== -1) {
+        	if (resultItems[i].name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1) {
         		foundItems.push(resultItems[i]);
         	}
         }
