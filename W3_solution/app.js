@@ -30,6 +30,7 @@ angular.module('narrowitdownapp', [])
   	var narrowItDown = this;
 
   	narrowItDown.dataInput;
+    narrowItDown.contentText = "";
 
   	narrowItDown.findData = function () {
   	  console.log("Clicked");
@@ -38,12 +39,13 @@ angular.module('narrowitdownapp', [])
   	  promise.then(function (response) {
   	  	narrowItDown.found = response;
 
-  	  	console.log(response);
-        if (response == []) {
+        if (response.length === 0) {
           console.log("NOTHING");
-          narrowItDown.nothingFound = true;
+          narrowItDown.contentText = "Nothing found";
 
-        } 
+        } else {
+          narrowItDown.contentText = "";
+        }
   	  })
   	  .catch(function (error) {
   	  	console.log("Something went terribly wrong");
